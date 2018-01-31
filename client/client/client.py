@@ -37,5 +37,6 @@ class TestRun(object):
             response = requests.get(
                 self.baseUrl,
                 data={'runner': self.testRunner}).json()
-            if response['testName']:
+            print("**************", response)
+            if response.get('testName', False):
                 yield Test(self, response['testName'])
