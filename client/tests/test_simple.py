@@ -8,12 +8,17 @@ import json
 class IntegrationTests(TestCase):
     def test_client_iterates_through_tests(self, mock_requests):
         mock_requests.post('http://localhost:8080/')
+
+        def raise_if_hit():
+            assert False
+            raise Exception("should not get here")
         mock_requests.get('http://localhost:8080/',
                           [
                               {'text': json.dumps({'testName': 'a'})},
                               {'text': json.dumps({'testName': 'b'})},
                               {'text': json.dumps({'testName': 'c'})},
                               {'text': json.dumps({'tests': False})},
+                              {'blah': raise_if_hit},
                           ])
         test_list = ['a', 'b', 'c']
         testRun = client.TestRun('http://localhost:8080/', 'host')
