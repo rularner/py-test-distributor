@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: themattrix/tox
+      - image: circleci/python:3.6.1
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -30,8 +30,9 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            cd client
-            tox --notest
+            sudo pip install tox
+            cd repo/client
+            tox --notest --skip-missing-interpreters
             tox/py361/bin/pip install -r requirements.txt
             tox/py361/bin/pip install -r test_requirements.txt
 
@@ -48,8 +49,9 @@ jobs:
       - run:
           name: run tests
           command: |
-            cd client
-            tox
+            cd repo/client
+            sudo pip install tox
+            tox --skip-missing-interpreters
 
       - store_artifacts:
           path: test-reports
