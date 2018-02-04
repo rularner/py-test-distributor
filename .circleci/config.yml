@@ -30,6 +30,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            sudo apt-get install python3.4 python3.5 python3.6 python.37
             sudo pip install tox
             cd client
             tox --notest --skip-missing-interpreters
