@@ -23,21 +23,22 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "client/requirements.txt" }}
+          - v1-dependencies-{{ checksum "client/tox.ini" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
       - run:
           name: install dependencies
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r client/requirements.txt
+            cd client
+            tox --notest
+            tox/py361/bin/pip install -r requirements.txt
+            tox/py361/bin/pip install -r test_requirements.txt
 
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "client/requirements.txt" }}
+          key: v1-dependencies-{{ checksum "client/tox.ini" }}
         
       # run tests!
       # this example uses Django's built-in test-runner
@@ -47,7 +48,6 @@ jobs:
       - run:
           name: run tests
           command: |
-            . venv/bin/activate
             cd client
             tox
 
