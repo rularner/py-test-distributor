@@ -8,7 +8,7 @@ common: &common
   working_directory: ~/repo/client
   steps:
     - checkout
-        - path: ~/repo
+        path: ~/repo
     - restore_cache:
         keys:
           - v2-deps-{{ .Environment.CIRCLE_JOB }}-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
