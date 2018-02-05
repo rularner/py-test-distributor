@@ -38,5 +38,6 @@ class TestRun(object):
                 self.baseUrl,
                 data={'runner': self.testRunner}).json()
             print("**************", response)
-            if response.get('testName', False):
-                yield Test(self, response['testName'])
+            if not response.get('testName', False):
+                break
+            yield Test(self, response['testName'])

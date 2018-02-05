@@ -18,7 +18,7 @@ class IntegrationTests(TestCase):
                               {'text': json.dumps({'testName': 'b'})},
                               {'text': json.dumps({'testName': 'c'})},
                               {'text': json.dumps({'tests': False})},
-                              {'blah': raise_if_hit},
+                              {'text': 'unjsonable'},
                           ])
         test_list = ['a', 'b', 'c']
         testRun = client.TestRun('http://localhost:8080/', 'host')
@@ -34,11 +34,11 @@ class IntegrationTests(TestCase):
                               {'text': json.dumps({'tests': False})},
                           ])
         mock_requests.post('http://localhost:8080/',
-                           {
+                           [{'text': json.dumps({
                                'state': 'fail',
                                'duration': 5,
                                'reason': 'anything goes here',
-                           })
+                           })}])
         test_list = ['a']
         testRun = client.TestRun('http://localhost:8080/', 'host')
         testRun.set_test_list(*test_list)
@@ -54,11 +54,11 @@ class IntegrationTests(TestCase):
                               {'text': json.dumps({'tests': False})},
                           ])
         mock_requests.post('http://localhost:8080/',
-                           {
+                           {'text': json.dumps({
                                'state': 'success',
                                'duration': 5,
                                'reason': 'anything goes here',
-                           })
+                           })})
         test_list = ['a']
         testRun = client.TestRun('http://localhost:8080/', 'host')
         testRun.set_test_list(*test_list)
@@ -75,11 +75,11 @@ class IntegrationTests(TestCase):
                               {'text': json.dumps({'tests': False})},
                           ])
         mock_requests.post('http://localhost:8080/',
-                           {
+                           [{'text': json.dumps({
                                'state': 'fail',
                                'duration': 5,
                                'reason': 'anything goes here',
-                           })
+                           })}])
         test_list = ['a']
         testRun = client.TestRun('http://localhost:8080/', 'host')
         testRun.set_test_list(*test_list)
