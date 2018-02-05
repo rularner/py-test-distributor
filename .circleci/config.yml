@@ -13,7 +13,7 @@ common: &common
           - v2-deps-{{ .Environment.CIRCLE_JOB }}-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
     - run:
         name: install dependencies
-        command: pip install --user tox
+        command: pip install --user tox tox-pyenv && pyenv local 3.4.7 3.6.4 3.7.0b1
     - run:
         name: run tox
         command: ~/.local/bin/tox

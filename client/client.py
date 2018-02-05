@@ -17,14 +17,14 @@ class TestRun(object):
 
             def success(self, duration: int):
                 response = requests.post(
-                    self.testList.baseUrl + "/" + self.name,
-                    data={'state': 'fail', 'duration': duration},
+                    self.testList.baseUrl + self.name,
+                    data={'state': 'success', 'duration': duration},
                 )
                 response.raise_for_status()
 
             def fail(self, duration: int, reason: str):
                 response = requests.post(
-                    self.testList.baseUrl + "/" + self.name,
+                    self.testList.baseUrl + self.name,
                     data={
                         'state': 'fail',
                         'duration': duration,
@@ -40,4 +40,6 @@ class TestRun(object):
             print("**************", response)
             if not response.get('testName', False):
                 break
+            if response.get('retry', False):
+                continue
             yield Test(self, response['testName'])
