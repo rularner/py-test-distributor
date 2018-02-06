@@ -1,0 +1,5 @@
+{
+  "tests/test_simple.py::IntegrationTests::test_client_reports_failures": true,
+  "tests/test_simple.py::IntegrationTests::test_client_reports_success": true,
+  "tests/test_simple.py::IntegrationTests::test_client_rerequests_if_asked": true
+}
