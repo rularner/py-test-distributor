@@ -33,7 +33,7 @@ class IntegrationTests(TestCase):
                               {'text': json.dumps({'testName': 'a'})},
                               {'text': json.dumps({'tests': False})},
                           ])
-        mock_requests.post('http://localhost:8080/',
+        mock_requests.post('http://localhost:8080/a',
                            [{'text': json.dumps({
                                'state': 'fail',
                                'duration': 5,
@@ -81,7 +81,7 @@ class IntegrationTests(TestCase):
                            })}])
         testRun = client.TestRun('http://localhost:8080/', 'host')
         testRun.set_test_list('a')
-        runTestList = list(testRun.test_list())
+        # runTestList = list(testRun.test_list())
         # assert len(runTestList) == 1
         # test = runTestList[0]
         # assert test.name == 'a'
