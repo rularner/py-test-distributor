@@ -10,16 +10,19 @@ app = FastAPI()
 
 
 class TestRunExternal(BaseModel):
+    ' Information we accept from clients about test runs '
     name: str
     tests: list[str]
 
 
 class TestResult(BaseModel):
+    ' Information about test run results '
     duration: int
     success: bool
 
 
 class TestRunInternal(BaseModel):
+    ' Internal information about test runs '
     name: str
     initial_tests: list[str]
     test_queue: list[str]
@@ -27,14 +30,8 @@ class TestRunInternal(BaseModel):
 
 
 class Test(BaseModel):
+    ' What we keep about individual tests '
     name: str
-
-
-class TestFinalState(BaseModel):
-    name: str
-    duration: str
-    state: str
-    reason: str
 
 
 run_dict = {}
@@ -60,6 +57,7 @@ def previous_run_data():
 
 @app.post("/runs")
 async def create_run(test_run: TestRunExternal):
+    " Set up a new test run "
     if test_run.name in run_dict:
         if run_dict[test_run.name].tests != test_run.tests:
             return JSONResponse(
@@ -68,8 +66,6 @@ async def create_run(test_run: TestRunExternal):
                     "Error": "Test list do not match previous post"
                 },
             )
-        else:
-            return
     else:
         run_dict[test_run.name] = TestRunInternal(
             name=test_run.name,
@@ -81,13 +77,15 @@ async def create_run(test_run: TestRunExternal):
 
 @app.get("/runs/{run_id}/tests")
 async def next_test(run_id: str):
+    " Return the next test to run "
     next_test_id = run_dict[run_id].test_queue.pop()
     return next_test_id
 
 
 @app.post("/runs/{run_id}/tests/{test_id}")
-async def test_response(run_id: str, test_id: str, testResult: TestResult):
-    run_dict[run_id].test_results[test_id] = testResult
+async def test_response(run_id: str, test_id: str, test_result: TestResult):
+    " Notify about the current test result "
+    run_dict[run_id].test_results[test_id] = test_result
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
