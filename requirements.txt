@@ -1,2 +1,9 @@
 tox
 tox-pyenv
+requests
+httpx
+FastAPI
+responses
+pytest
+uvicorn
+flake8

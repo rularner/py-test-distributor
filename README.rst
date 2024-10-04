@@ -8,4 +8,7 @@ and will then return a subset of those tests one-by-one.
 `The source for this project is available here
 <https://github.com/rularner/py-test-distributor/>`_.
 
-Importing this probject in your test runner should be sufficient to use it.
+This is currently compatible with PyTest.  Steps to run:
+- Install this package
+- Start the server: `python test_distributor.server.server`
+- Run your tests with the client plugin enabled: `pytest -m test_distributor.client.pytest_plugin <any other arguments>`

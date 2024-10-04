@@ -1,0 +1,9 @@
+POST http://localhost:8000/set_tests
+
+{
+    "tests": [
+        "test_a",
+        "test_b"
+    ],
+    "name": "run_1"
+}

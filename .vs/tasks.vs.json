@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-test_simple",
+      "appliesTo": "tests/test_simple.py",
+      "type": "launch"
+    }
+  ]
+}

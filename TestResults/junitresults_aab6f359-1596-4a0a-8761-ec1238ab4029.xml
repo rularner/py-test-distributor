@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="0" hostname="Rusty-Gaming" name="pytest" skipped="0" tests="4" time="0.047" timestamp="2020-12-03T19:54:19.616212"><testcase classname="tests.test_simple.IntegrationTests" file="tests\test_simple.py" line="8" name="test_client_iterates_through_tests" time="0.007"><system-out>--------------------------------- Captured Log ---------------------------------
+
+--------------------------------- Captured Out ---------------------------------
+************** {'testName': 'a'}
+************** {'testName': 'b'}
+************** {'testName': 'c'}
+************** {'tests': False}
+
+</system-out><system-err>--------------------------------- Captured Err ---------------------------------
+
+</system-err></testcase><testcase classname="tests.test_simple.IntegrationTests" file="tests\test_simple.py" line="28" name="test_client_reports_failures" time="0.004"><system-out>--------------------------------- Captured Log ---------------------------------
+
+--------------------------------- Captured Out ---------------------------------
+************** {'testName': 'a'}
+************** {'tests': False}
+
+</system-out><system-err>--------------------------------- Captured Err ---------------------------------
+
+</system-err></testcase><testcase classname="tests.test_simple.IntegrationTests" file="tests\test_simple.py" line="48" name="test_client_reports_success" time="0.004"><system-out>--------------------------------- Captured Log ---------------------------------
+
+--------------------------------- Captured Out ---------------------------------
+************** {'testName': 'a'}
+************** {'tests': False}
+
+</system-out><system-err>--------------------------------- Captured Err ---------------------------------
+
+</system-err></testcase><testcase classname="tests.test_simple.IntegrationTests" file="tests\test_simple.py" line="67" name="test_client_rerequests_if_asked" time="0.001"><system-out>--------------------------------- Captured Log ---------------------------------
+
+--------------------------------- Captured Out ---------------------------------
+
+</system-out><system-err>--------------------------------- Captured Err ---------------------------------
+
+</system-err></testcase></testsuite></testsuites>
