@@ -1,7 +1,7 @@
 ' Tests for testing client '
 from unittest import TestCase
 import responses
-from . import testing_client
+import testing_client
 
 
 @responses.activate

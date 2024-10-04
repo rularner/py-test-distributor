@@ -24,3 +24,4 @@ jobs:
         pylint $(git ls-files '*/*.py')
         flake8 $(git ls-files '*/*.py')
         python -m unittest
+        python -m unittest discover -s client

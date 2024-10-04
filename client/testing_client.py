@@ -22,7 +22,7 @@ class Test:
         response = requests.post(
             self.test_run.url + "/tests/" + self.name,
             data={'success': False, 'duration': duration},
-            timeout = 5,
+            timeout=5,
         )
         response.raise_for_status()
 
@@ -65,6 +65,7 @@ class TestRun:
     def test_run(self) -> list[Test]:
         ' Return a list of tests to run '
         test_run_base = self
+
         class TestList(list):
             ' Fake list to return tests'
             def __iter__(self):
