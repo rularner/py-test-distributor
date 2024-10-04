@@ -21,6 +21,6 @@ jobs:
         pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')
-        flake8 $(git ls-files '*.py')
+        pylint $(git ls-files '*/*.py')
+        flake8 $(git ls-files '*/*.py')
         python -m unittest

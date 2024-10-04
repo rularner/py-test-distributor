@@ -6,6 +6,7 @@ Classes:
     Test
     TestRun
 '''
+from typing import List
 import requests
 
 
@@ -44,7 +45,7 @@ class TestRun:
     def __init__(self,
                  base_url: str,
                  run_id: str,
-                 tests: list[str]):
+                 tests: List[str]):
         ' Initialize a new test run '
         self.base_url = base_url
         self.id = run_id
