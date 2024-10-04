@@ -1,6 +1,7 @@
 # PyTest plugin
 from pytest import Session, mark, Item, CallInfo, Parser, Config
 from . import testing_client
+from random import randint
 
 
 def pytest_addoption(parser: Parser):
@@ -17,7 +18,7 @@ def pytest_addoption(parser: Parser):
 def pytest_configure(config: Config):
     if config.option.distributor_url and config.pluginmanager.hasplugin('testdistributor'):
         # Get the standard terminal reporter plugin...
-        test_distributor = TestDistributor(config.option.distributor_url)
+        test_distributor = TestDistributor(config.option.distributor_url, f'{randint}')
 
         # ...and replace it with our own instafailing reporter.
         config.pluginmanager.register(test_distributor, 'test_distributor')

@@ -22,3 +22,5 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
+        flake8 $(git ls-files '*.py')
+        python -m unittest -s client

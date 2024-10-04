@@ -34,7 +34,10 @@ class Test(object):
 
 
 class TestRun(object):
-    def __init__(self, baseUrl: str, run_id: str, tests: list[str]):
+    def __init__(self,
+                 baseUrl: str,
+                 run_id: str,
+                 tests: list[str]):
         self.baseUrl = baseUrl
         self.id = run_id
         response = requests.post(

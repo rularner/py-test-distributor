@@ -33,7 +33,7 @@ class UnitTests(TestCase):
     def test_client_reports_success(self, mock_requests):
         responses.add(responses.POST, 'http://localhost:8080/runs/run_1/tests/a/')
 
-        testRun = testing_client.TestRun('http://localhost:8080/', 'host')
+        testRun = testing_client.TestRun('http://localhost:8080/', 'host', ['a', 'b', 'c'])
         [test1, _, _] = list(testRun.test_list())
         assert test1.name == 'a'
         test1.success(duration=5)

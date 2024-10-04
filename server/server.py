@@ -81,8 +81,8 @@ async def create_run(test_run: TestRunExternal):
 
 @app.get("/runs/{run_id}/tests")
 async def next_test(run_id: str):
-    next_test = run_dict[run_id].test_queue.pop()
-    return next_test
+    next_test_id = run_dict[run_id].test_queue.pop()
+    return next_test_id
 
 
 @app.post("/runs/{run_id}/tests/{test_id}")

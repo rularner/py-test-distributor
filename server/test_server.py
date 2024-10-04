@@ -1,3 +1,7 @@
+"""
+Server that keeps track of which tests to run next.
+"""
+
 from . import server
 
 from unittest import TestCase
