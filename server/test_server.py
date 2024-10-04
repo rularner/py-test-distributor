@@ -5,9 +5,9 @@ Server that keeps track of which tests to run next.
 from unittest import TestCase
 from fastapi.testclient import TestClient
 
-from . import server
+import testing_server
 
-client = TestClient(server.app)
+client = TestClient(testing_server.app)
 
 
 class UnitTests(TestCase):

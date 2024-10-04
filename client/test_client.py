@@ -1,6 +1,7 @@
 ' Tests for testing client '
 from unittest import TestCase
 import responses
+
 import testing_client
 
 
