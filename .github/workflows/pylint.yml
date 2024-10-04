@@ -23,4 +23,4 @@ jobs:
       run: |
         pylint $(git ls-files '*.py')
         flake8 $(git ls-files '*.py')
-        python -m unittest -s client
+        python -m unittest
