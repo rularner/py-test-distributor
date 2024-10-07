@@ -1,13 +1,20 @@
-from . import server
+"""
+Server that keeps track of which tests to run next.
+"""
 
 from unittest import TestCase
 from fastapi.testclient import TestClient
 
-client = TestClient(server.app)
+import testing_server
+
+client = TestClient(testing_server.app)
 
 
 class UnitTests(TestCase):
+    "Initial unit tests"
+
     def test_base_server(self):
+        "See if server works with easy requests"
         response = client.post(
             "/runs",
             # headers={"X-Token": "hailhydra"},
