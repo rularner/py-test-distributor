@@ -1,14 +1,25 @@
-Python Distributed Test Runner Client
-++++++++++++++=======================
+Python Test Distributor
+++++++++++++++++++++++++
 
-This is the client for the Python Distributed Test Runner.  It
-exposes a list that should be initialized with a list of tests,
-and will then return a subset of those tests one-by-one.
+A client/server system for splitting a pytest suite across multiple test
+runners, so each test in a run executes exactly once no matter how many
+runners are pulling from it.
 
 `The source for this project is available here
 <https://github.com/rularner/py-test-distributor/>`_.
 
-This is currently compatible with PyTest.  Steps to run:
-- Install this package
-- Start the server: `python test_distributor.server.server`
-- Run your tests with the client plugin enabled: `pytest -m test_distributor.client.pytest_plugin <any other arguments>`
+Installing this package registers a pytest plugin (``testdistributor``)
+automatically, so ``pip install`` is the only setup step needed on a test
+runner. Steps to run:
+
+- Install this package: ``pip install test-distributor`` (add the
+  ``[server]`` extra on the machine that will host the server:
+  ``pip install test-distributor[server]``)
+- Start the server: ``python -m server.testing_server``
+- To split one suite across multiple runners, give them all the same
+  ``--distributor_url`` and ``--distributor_run_id``, so they pull from the
+  same queue: ``pytest --distributor_url http://localhost:8000
+  --distributor_run_id ci-run-42``
+- ``--distributor_run_id`` is required to activate the plugin;
+  ``--distributor_url`` alone has no effect, and a runner invoked without a
+  run id just runs its tests locally without contacting the server.

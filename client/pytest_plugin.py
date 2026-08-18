@@ -1,5 +1,4 @@
 ' PyTest plugin '
-from random import randint
 from pytest import Session, mark, CallInfo, Parser, Config
 from . import testing_client
 
@@ -13,15 +12,25 @@ def pytest_addoption(parser: Parser):
             "Test distributor server URL"
         )
     )
+    group._addoption(  # pylint: disable=protected-access
+        '--distributor_run_id', action="store", dest="distributor_run_id",
+        help=(
+            "Shared run id. Runners started with the same --distributor_url and "
+            "--distributor_run_id pull from the same test queue. Required to "
+            "enable the distributor; without it, --distributor_url is ignored "
+            "and pytest runs normally."
+        )
+    )
 
 
 @mark.trylast
 def pytest_configure(config: Config):
     ' Configure the plugin.'
-    if config.option.distributor_url and config.pluginmanager.hasplugin('testdistributor'):
+    if (config.option.distributor_url and config.option.distributor_run_id
+            and config.pluginmanager.hasplugin('testdistributor')):
         # Get the standard terminal reporter plugin...
-        runner_name = str(randint(0, 2**31 - 1))
-        test_distributor = TestDistributor(config.option.distributor_url, runner_name)
+        test_distributor = TestDistributor(
+            config.option.distributor_url, config.option.distributor_run_id)
 
         # ...and replace it with our own instafailing reporter.
         config.pluginmanager.register(test_distributor, 'test_distributor')
@@ -29,16 +38,16 @@ def pytest_configure(config: Config):
 
 class TestDistributor():
     ' Class to manage tests in pytest. '
-    def __init__(self, base_url: str, test_runner_name: str):
+    def __init__(self, base_url: str, run_id: str):
         ' Initialize. '
         self.__current_test = None
         self.__base_url = base_url
-        self.__test_runner_name = test_runner_name
+        self.__run_id = run_id
 
     def pytest_runtestloop(self, session: Session) -> bool:
         ' Run tests in whatever order the distributor hands them out '
         test_run = testing_client.TestRun(self.__base_url,
-                                          self.__test_runner_name,
+                                          self.__run_id,
                                           [item.name for item in session.items])
         name_to_items = {item.name: item for item in session.items}
 
