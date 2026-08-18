@@ -134,4 +134,12 @@ setup(
         'dev': ['check-manifest'],
         'test': ['coverage'],
     },
+
+    # Registers client/pytest_plugin.py as an auto-discovered pytest plugin
+    # once this package is installed.
+    entry_points={
+        'pytest11': [
+            'testdistributor = client.pytest_plugin',
+        ],
+    },
 )

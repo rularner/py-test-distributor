@@ -59,7 +59,7 @@ def previous_run_data():
 async def create_run(test_run: TestRunExternal):
     " Set up a new test run "
     if test_run.name in run_dict:
-        if run_dict[test_run.name].tests != test_run.tests:
+        if run_dict[test_run.name].initial_tests != test_run.tests:
             return JSONResponse(
                 status_code=400,
                 content={
@@ -77,9 +77,11 @@ async def create_run(test_run: TestRunExternal):
 
 @app.get("/runs/{run_id}/tests")
 async def next_test(run_id: str):
-    " Return the next test to run "
-    next_test_id = run_dict[run_id].test_queue.pop()
-    return next_test_id
+    " Return the next test to run, or None if the queue is empty "
+    test_queue = run_dict[run_id].test_queue
+    if not test_queue:
+        return None
+    return test_queue.pop()
 
 
 @app.post("/runs/{run_id}/tests/{test_id}")

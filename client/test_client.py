@@ -2,21 +2,27 @@
 from unittest import TestCase
 import responses
 
-import testing_client
+from . import testing_client
 
 
-@responses.activate
 class UnitTests(TestCase):
     ' Simple tests for test client'
     def setUp(self):
         ' Setup for all tests '
         responses.add(responses.POST, 'http://localhost:8080/runs')
 
+        for next_test in ['a', 'b', 'c']:
+            responses.add(responses.GET,
+                          'http://localhost:8080/runs/run_1/tests',
+                          json=next_test,
+                          )
         responses.add(responses.GET,
-                      'http://localhost:8080/runs/run_1/tests/',
-                      ['a', 'b', 'c', None],
+                      'http://localhost:8080/runs/run_1/tests',
+                      body='null',
+                      content_type='application/json',
                       )
 
+    @responses.activate
     def test_client_iterates_through_tests(self):
         ' Test client iteration '
         test_run = testing_client.TestRun(
@@ -28,19 +34,21 @@ class UnitTests(TestCase):
                          [test.name for test in list(test_run.test_run())]
                          )
 
+    @responses.activate
     def test_client_reports_failures(self):
         ' Test client failure reporting '
-        responses.add(responses.POST, 'http://localhost:8080/runs/run_1/tests/a/')
+        responses.add(responses.POST, 'http://localhost:8080/runs/run_1/tests/a')
         test_run = testing_client.TestRun('http://localhost:8080/', 'run_1', ['a'])
         [test1, _, _] = list(test_run.test_run())
         assert test1.name == 'a'
-        test1.fail(duration=5)
+        test1.fail(duration=5, reason='boom')
 
+    @responses.activate
     def test_client_reports_success(self):
         ' Test client success reporting '
-        responses.add(responses.POST, 'http://localhost:8080/runs/run_1/tests/a/')
+        responses.add(responses.POST, 'http://localhost:8080/runs/run_1/tests/a')
 
-        test_run = testing_client.TestRun('http://localhost:8080/', 'host', ['a', 'b', 'c'])
+        test_run = testing_client.TestRun('http://localhost:8080/', 'run_1', ['a', 'b', 'c'])
         [test1, _, _] = list(test_run.test_run())
         assert test1.name == 'a'
         test1.success(duration=5)

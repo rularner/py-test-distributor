@@ -21,16 +21,16 @@ class Test:
         ' Indicate a test succeeded'
         response = requests.post(
             self.test_run.url + "/tests/" + self.name,
-            data={'success': False, 'duration': duration},
+            json={'success': True, 'duration': duration},
             timeout=5,
         )
         response.raise_for_status()
 
-    def fail(self, duration: int, reason: str) -> None:
+    def fail(self, duration: int, reason: str = None) -> None:
         ' Indicate a test failed '
         response = requests.post(
             self.test_run.url + "/tests/" + self.name,
-            data={
+            json={
                 'success': False,
                 'duration': duration,
                 'reason': reason,
@@ -47,11 +47,11 @@ class TestRun:
                  run_id: str,
                  tests: List[str]):
         ' Initialize a new test run '
-        self.base_url = base_url
+        self.base_url = base_url.rstrip('/')
         self.id = run_id
         response = requests.post(
-            self.url,
-            data={'name': run_id,
+            self.base_url + "/runs",
+            json={'name': run_id,
                   'tests': tests},
             timeout=5,
         )
@@ -75,12 +75,12 @@ class TestRun:
             def __next__(self) -> Test:
                 ' Get the next test to run '
                 response = requests.get(
-                    test_run_base.url,
+                    test_run_base.url + "/tests",
                     timeout=5,
                 )
                 response.raise_for_status()
                 if not response.json():
                     raise StopIteration
 
-                return Test(response.json(), test_run_base.id)
+                return Test(response.json(), test_run_base)
         return TestList()
