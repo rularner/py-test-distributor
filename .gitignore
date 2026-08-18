@@ -100,3 +100,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Visual Studio
+.vs/
+
+# Test run output
+TestResults/

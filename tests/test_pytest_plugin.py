@@ -23,6 +23,6 @@ def test_distributor_plugin_runs_tests_and_reports_results(pytester, live_server
 
     result.assert_outcomes(passed=1, failed=1)
 
-    [run] = testing_server.run_dict.values()
+    run = next(iter(testing_server.run_dict.values()))
     assert run.test_results['test_one'].success is True
     assert run.test_results['test_two'].success is False

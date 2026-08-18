@@ -133,6 +133,9 @@ setup(
     extras_require={  # Optional
         'dev': ['check-manifest'],
         'test': ['coverage'],
+        # find_packages() bundles server/ into this distribution, but its
+        # imports (fastapi, uvicorn) aren't needed by the client/plugin.
+        'server': ['fastapi', 'uvicorn'],
     },
 
     # Registers client/pytest_plugin.py as an auto-discovered pytest plugin
